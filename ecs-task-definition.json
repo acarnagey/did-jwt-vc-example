@@ -1,0 +1,24 @@
+{
+    "family": "did-jwt-vc-example",
+    "executionRoleArn": "arn:aws:iam::364104470863:role/ecsTaskExecutionRole",
+    "networkMode": "awsvpc",
+    "containerDefinitions": [
+        {
+            "name": "did-jwt-vc-example",
+            "image": "364104470863.dkr.ecr.us-east-1.amazonaws.com/did-jwt-vc-example:latest",
+            "portMappings": [
+                {
+                    "containerPort": 5000,
+                    "hostPort": 5000,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true
+        }
+    ],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "512",
+    "memory": "1024"
+}

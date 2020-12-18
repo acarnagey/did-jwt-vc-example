@@ -1,0 +1,43 @@
+{
+  "name": "did-jwt-vc-example",
+  "version": "1.0.0",
+  "description": "An example of how to do something with DID and VC",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/server",
+    "server": "nodemon src/server",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acarnagey/did-jwt-vc-example.git"
+  },
+  "author": "Adam Carnagey",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/acarnagey/did-jwt-vc-example/issues"
+  },
+  "homepage": "https://github.com/acarnagey/did-jwt-vc-example#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "engines": {
+    "npm": ">=6.14.9",
+    "node": ">=14.15.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
