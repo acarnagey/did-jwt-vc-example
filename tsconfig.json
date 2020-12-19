@@ -1,0 +1,26 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "rootDir": "src",
+    "noImplicitAny": false,
+    "module": "commonjs",
+    "strict": true,
+    "baseUrl": "./",
+    "outDir": "dist",
+    "sourceMap": true,
+    "inlineSources": true,
+    "sourceRoot": "/",
+    "jsx": "react",
+    "removeComments": true,
+    "experimentalDecorators": true,
+    "target": "es6",
+    "emitDecoratorMetadata": true,
+    "moduleResolution": "node",
+    "importHelpers": false,
+    "esModuleInterop": true,
+    "types": ["node"],
+    "typeRoots": ["node_modules/@types"]
+  },
+  "include": ["./src"],
+  "exclude": ["./node_modules", "./src/**/*.test.ts", "./src/public/"]
+}

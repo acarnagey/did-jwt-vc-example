@@ -1,17 +1,16 @@
-FROM node:14
-
-# Setting working directory. All the path will be relative to WORKDIR
+## Stage 1 build step
+FROM node:14.15.3-alpine
 WORKDIR /usr/src/app
-
-# Installing dependencies
 COPY package*.json ./
-RUN npm install
-
-# Copying source files
 COPY . .
+RUN npm install
+RUN npm run build
 
-# Building app
-# RUN npm run build
-
-# Running the app
-CMD [ "npm", "start" ]
+## Stage 2 run app step
+FROM node:14.15.3-alpine
+WORKDIR /usr/src/app
+COPY package*.json ./
+RUN npm install --only=production
+COPY --from=0 /usr/src/app/dist ./
+EXPOSE 5000
+CMD node server
