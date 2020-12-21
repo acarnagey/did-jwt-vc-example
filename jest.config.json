@@ -1,0 +1,23 @@
+{
+  "globals": {
+    "ts-jest": {
+      "tsconfig": "tsconfig.json"
+    }
+  },
+  "coverageThreshold": {
+    "global": {
+      "branches": 38,
+      "functions": 58,
+      "lines": 53,
+      "statements": 52
+    }
+  },
+  "moduleFileExtensions": ["ts", "js", "json", "pdf"],
+  "transform": {
+    "^.+\\.(ts|tsx)$": "./node_modules/ts-jest"
+  },
+  "testMatch": ["**/*.(spec|test).(ts|js)"],
+  "testEnvironment": "node",
+  "testPathIgnorePatterns": ["/dist/"],
+  "watchPathIgnorePatterns": ["/__testUploads__/"]
+}

@@ -4,6 +4,7 @@
         "ms-vscode.vscode-typescript-tslint-plugin",
         "ms-azuretools.vscode-docker",
         "vscode-icons-team.vscode-icons",
-        "Orta.vscode-jest"
+        "Orta.vscode-jest",
+        "firsttris.vscode-jest-runner"
     ]
 }

@@ -10,14 +10,16 @@ const htmlPlugin = new HtmlWebPackPlugin({
 });
 
 const config: webpack.Configuration = {
+  target: "web",
   mode: "development",
-  entry:  "./src/index.ts",
+  entry: "./src/index.ts",
   devtool: "source-map",
   output: { path: __dirname, filename: "bundle.js" },
   devServer: {
     proxy: {
       "/api/*": "http://localhost:5000",
     },
+    publicPath: "/",
     port: 3000,
     // to get private IP addresses to work to test on emulators
     host: "0.0.0.0",
@@ -36,6 +38,7 @@ const config: webpack.Configuration = {
       ],
     },
     contentBase: path.resolve(__dirname, "src"),
+    watchContentBase: true,
     inline: true,
   },
   resolve: {

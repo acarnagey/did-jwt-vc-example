@@ -1,6 +1,8 @@
 # did-jwt-vc-example
 An example of how to do something with DID and VC
 
+http://did-jwt-vc-example-lb-1347369287.us-east-1.elb.amazonaws.com
+
 ## Dev
 To run app, server with SSR
 ```
