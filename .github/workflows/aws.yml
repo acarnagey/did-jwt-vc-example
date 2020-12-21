@@ -46,6 +46,8 @@ jobs:
       uses: SpicyPizza/create-envfile@v1
       with:
         envkey_INFURA_URI: ${{ secrets.INFURA_URI }}
+        envkey_ISSUER_ADDRESS: ${{ secrets.ISSUER_ADDRESS }}
+        envkey_ISSUER_PRIVATE_KEY: ${{ secrets.ISSUER_PRIVATE_KEY }}
         file_name: .env
 
     - name: Configure AWS credentials

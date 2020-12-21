@@ -3,6 +3,8 @@ An example of how to do something with DID and VC
 
 http://did-jwt-vc-example-lb-1347369287.us-east-1.elb.amazonaws.com
 
+<img src="/docs/page.png" align="middle" width="900" >
+
 ## Dev
 To run app, server with SSR
 ```

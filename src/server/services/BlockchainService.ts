@@ -3,11 +3,14 @@ import {
   JwtCredentialPayload,
   createVerifiableCredentialJwt,
   verifyCredential,
+  Issuer,
 } from "did-jwt-vc";
 import Web3 from "web3";
 import { Resolver } from "did-resolver";
 import { getResolver } from "ethr-did-resolver";
 import dotenv from "dotenv";
+import VCOverEighteenRequest from "src/universal/models/VCOverEighteenRequest";
+import didJWT, { Signer } from "did-jwt";
 
 dotenv.config();
 
@@ -27,6 +30,18 @@ export default class BlockchainService {
   createAccount() {
     const account = this.web3.eth.accounts.create();
     return account;
+  }
+
+  getIssuerDID() {
+    const ethrDID = new EthrDID({
+      address: process.env.ISSUER_ADDRESS!,
+      privateKey: process.env.ISSUER_PRIVATE_KEY!,
+      registry: this.providerConfig.registry,
+      provider: this.web3.givenProvider,
+      web3: this.web3,
+      rpcUrl: this.providerConfig.rpcUrl,
+    });
+    return ethrDID;
   }
 
   createDID(address, privateKey) {
@@ -54,11 +69,9 @@ export default class BlockchainService {
     return ethrDID;
   }
 
-  async createVC(credentialSubject) {
-    const issuer: any = this.createDIDByAccount(this.createAccount());
-    const subject: any = this.createDIDByAccount(this.createAccount());
+  async createVC(credentialSubject, issuerDid, subjectDid) {
     const vcPayload: JwtCredentialPayload = {
-      sub: subject.did,
+      sub: subjectDid,
       nbf: Math.floor(Date.now() / 1000),
       vc: {
         "@context": ["https://www.w3.org/2018/credentials/v1"],
@@ -66,18 +79,36 @@ export default class BlockchainService {
         credentialSubject,
       },
     };
+    // const signer = (r) => {
+    //   try{
+    //     var n=e.sign(c(r)),t=n.s,i=n.recoveryParam;
+    //     return Promise.resolve({
+    //       r:v(n.r.toString("hex")),
+    //       s:v(t.toString("hex")),
+    //       recoveryParam:i
+    //     })
+    //   }catch(r){
+    //     return Promise.reject(r)}
+    //   }
+    const signer: Signer = didJWT.SimpleSigner(
+      process.env.ISSUER_PRIVATE_KEY!
+    );
+    const issuer: Issuer = {
+      did: issuerDid,
+      signer,
+    };
     const vcJwt = await createVerifiableCredentialJwt(vcPayload, issuer);
     return vcJwt;
   }
 
-  async createOverEighteenVC(name) {
+  async createOverEighteenVC(req: VCOverEighteenRequest) {
     const credentialSubject = {
       ofAge: {
         type: "OverEighteen",
-        name
+        name: req.name,
       },
     };
-    return this.createVC(credentialSubject);
+    return this.createVC(credentialSubject, req.issuerDid, req.subjectDid);
   }
 
   async verifyVC(vcJwt) {
