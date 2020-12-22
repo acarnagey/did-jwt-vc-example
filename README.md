@@ -1,11 +1,24 @@
 # did-jwt-vc-example
-An example of how to do something with DID and VC
+An example of how to create a DID for an issuer and subject and create a VC to say that the
+subject is over 18 years old.
 
+## Demo
 http://did-jwt-vc-example-lb-1347369287.us-east-1.elb.amazonaws.com
 
 <img src="/docs/page.png" align="middle" width="900" >
 
 ## Dev
+Make sure to have an .env file in the root folder of the project with the required parameters set
+
+```
+cp template.env .env
+```
+e.g.
+```
+ISSUER_ADDRESS=0x0000000000000000000000000000000000000000
+ISSUER_PRIVATE_KEY=0000000000000000000000000000000000000000000000000000000000000000
+INFURA_URI=https://ropsten.infura.io/v3/00000000000000000000000000000000
+```
 To run app, server with SSR
 ```
 npm install
