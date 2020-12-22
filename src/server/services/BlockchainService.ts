@@ -4,6 +4,7 @@ import {
   createVerifiableCredentialJwt,
   verifyCredential,
   Issuer,
+  VerifiedCredential,
 } from "did-jwt-vc";
 import Web3 from "web3";
 import { Resolver } from "did-resolver";
@@ -11,6 +12,7 @@ import { getResolver } from "ethr-did-resolver";
 import dotenv from "dotenv";
 import VCOverEighteenRequest from "src/universal/models/VCOverEighteenRequest";
 import didJWT, { Signer } from "did-jwt";
+import { Account } from "web3-core";
 
 dotenv.config();
 
@@ -27,12 +29,12 @@ export default class BlockchainService {
     new Web3.providers.HttpProvider(this.providerConfig.rpcUrl)
   );
 
-  createAccount() {
+  createAccount(): Account {
     const account = this.web3.eth.accounts.create();
     return account;
   }
 
-  getIssuerDID() {
+  getIssuerDID(): EthrDID {
     const ethrDID = new EthrDID({
       address: process.env.ISSUER_ADDRESS!,
       privateKey: process.env.ISSUER_PRIVATE_KEY!,
@@ -44,7 +46,7 @@ export default class BlockchainService {
     return ethrDID;
   }
 
-  createDID(address, privateKey) {
+  createDID(address: string, privateKey: string): EthrDID {
     const ethrDID = new EthrDID({
       address,
       privateKey,
@@ -56,7 +58,7 @@ export default class BlockchainService {
     return ethrDID;
   }
 
-  createDIDByAccount(account: any) {
+  createDIDByAccount(account: Account) {
     const privKeyWithoutHeader = account.privateKey.substring(2);
     const ethrDID = new EthrDID({
       address: account.address,
@@ -69,7 +71,7 @@ export default class BlockchainService {
     return ethrDID;
   }
 
-  async createVC(credentialSubject, issuerDid, subjectDid) {
+  async createVC(credentialSubject, issuerDid, subjectDid): Promise<string> {
     const vcPayload: JwtCredentialPayload = {
       sub: subjectDid,
       nbf: Math.floor(Date.now() / 1000),
@@ -79,20 +81,7 @@ export default class BlockchainService {
         credentialSubject,
       },
     };
-    // const signer = (r) => {
-    //   try{
-    //     var n=e.sign(c(r)),t=n.s,i=n.recoveryParam;
-    //     return Promise.resolve({
-    //       r:v(n.r.toString("hex")),
-    //       s:v(t.toString("hex")),
-    //       recoveryParam:i
-    //     })
-    //   }catch(r){
-    //     return Promise.reject(r)}
-    //   }
-    const signer: Signer = didJWT.SimpleSigner(
-      process.env.ISSUER_PRIVATE_KEY!
-    );
+    const signer: Signer = didJWT.SimpleSigner(process.env.ISSUER_PRIVATE_KEY!);
     const issuer: Issuer = {
       did: issuerDid,
       signer,
@@ -101,17 +90,21 @@ export default class BlockchainService {
     return vcJwt;
   }
 
-  async createOverEighteenVC(req: VCOverEighteenRequest) {
+  async createOverEighteenVC(req: VCOverEighteenRequest): Promise<string> {
     const credentialSubject = {
       ofAge: {
         type: "OverEighteen",
         name: req.name,
       },
     };
-    return this.createVC(credentialSubject, req.issuerDid, req.subjectDid);
+    return await this.createVC(
+      credentialSubject,
+      req.issuerDid,
+      req.subjectDid
+    );
   }
 
-  async verifyVC(vcJwt) {
+  async verifyVC(vcJwt: string): Promise<VerifiedCredential> {
     const verifiedVC = await verifyCredential(vcJwt, this.resolver);
     return verifiedVC;
   }
