@@ -10,7 +10,9 @@
     "webpack:watch": "webpack --config ./webpack.config.dev.ts --watch",
     "build:client:dev": "webpack --config ./webpack.config.dev.ts",
     "build:client:prod": "webpack --config ./webpack.config.prod.ts",
-    "build": "rimraf dist && tsc && npm run build:client:prod",
+    "build:prod": "rimraf dist && tsc && npm run build:client:prod",
+    "build": "tsc",
+    "lint": "tslint -c tslint.json -p tsconfig.json",
     "server": "ts-node src/server"
   },
   "repository": {

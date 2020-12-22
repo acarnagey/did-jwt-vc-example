@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 COPY . .
 RUN npm install
-RUN npm run build
+RUN npm run build:prod
 
 ## Stage 2 run app step
 FROM node:14.15.3-alpine
