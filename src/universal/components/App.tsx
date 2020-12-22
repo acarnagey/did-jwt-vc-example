@@ -35,7 +35,7 @@ export default function App() {
   };
 
   return (
-    <>
+    <div>
       {!loading && (
         <>
           <CssBaseline />
@@ -54,7 +54,7 @@ export default function App() {
           </div>
         </>
       )}
-    </>
+    </div>
   );
 }
 
