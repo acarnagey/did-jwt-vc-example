@@ -12,11 +12,13 @@
       "statements": 52
     }
   },
-  "moduleFileExtensions": ["ts", "js", "json", "pdf"],
+  "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json"],
   "transform": {
     "^.+\\.(ts|tsx)$": "./node_modules/ts-jest"
   },
-  "testMatch": ["**/*.(spec|test).(ts|js)"],
+  "snapshotSerializers": ["enzyme-to-json/serializer"],
+  "setupFiles": ["./src/setupTests.ts"],
+  "testMatch": ["**/*.(spec|test).(ts|js|tsx|jsx)"],
   "testEnvironment": "node",
   "testPathIgnorePatterns": ["/dist/"],
   "watchPathIgnorePatterns": ["/__testUploads__/"]
